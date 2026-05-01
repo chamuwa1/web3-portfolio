@@ -1993,10 +1993,15 @@
             submitBtn.innerText = 'Transmitting...';
             submitBtn.disabled = true;
 
+            // --- ADDED TIMEZONE FIX ---
+            const formData = new FormData(contactForm);
+            formData.append("Local Submission Time", new Date().toLocaleString('en-US', { timeZone: 'Asia/Colombo' }));
+            // --------------------------
+
             try {
                 const response = await fetch(formspreeEndpoint, {
                     method: 'POST',
-                    body: new FormData(contactForm),
+                    body: formData, // <-- Now sending the updated form data
                     headers: { 'Accept': 'application/json' }
                 });
 
